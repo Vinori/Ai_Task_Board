@@ -1,0 +1,59 @@
+---
+description: 
+alwaysApply: true
+---
+Cursor Rules — Frontend (React + AI)
+1. Стек технологий
+React 18+ (TypeScript)
+TailwindCSS / CSS Modules / Styled Components
+Zustand / Redux Toolkit для state management
+Axios / Fetch API для запросов к Supabase + Telegram
+Framer Motion для анимаций
+@dnd-kit для drag & drop
+OpenAI API (или аналог) для разбивки задач на подзадачи
+LocalStorage / IndexedDB для оффлайн кэша
+Jest + React Testing Library для тестов
+2. Структура проекта
+/src
+  /api             # запросы к Supabase, Telegram, AI
+    ai.ts          # функции для AI task breakdown
+    tasks.ts       # CRUD задачи и колонки
+  /components      # UI-компоненты
+    /buttons
+    /cards        # карточки задач
+    /kanban       # доска Kanban
+    /modals
+  /hooks           # кастомные хуки
+    useAI.ts      # обработка AI функций
+    useTasks.ts   # управление задачами
+    useDragDrop.ts
+  /pages           # страницы / экраны
+    Home.tsx
+    Features.tsx
+    HowItWorks.tsx
+    Pricing.tsx
+  /styles          # глобальные стили и темы
+    theme.ts
+    tailwind.config.js
+  /utils           # вспомогательные функции
+    debounce.ts
+    formatDate.ts
+  /assets          # изображения, SVG, mockups
+3. Правила для курсора
+AI-функции всегда доступны для карточки задачи
+Действие “Split task into subtasks” вызывает useAI.
+Перетаскивание карточек и колонок
+Использовать @dnd-kit, плавная анимация с Framer Motion.
+UI должен быть минималистичный
+Карточки и кнопки адаптированы под auto layout.
+Простые, мягкие тени, скругления.
+State management
+Все действия пользователя (создание, редактирование, перемещение) обновляют глобальный state через Zustand/Redux.
+Интеграции
+Telegram → быстрый импорт задач через API.
+Supabase → хранение задач, колонок, пользователей.
+Адаптивность
+Desktop + mobile, медиа-запросы, flex + grid.
+Логика AI
+Любое изменение задачи может запускать AI-функцию.
+Разбивка задач визуально показывается на карточках.

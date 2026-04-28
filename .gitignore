@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+
+# Build
+dist
+build
+.vite
+
+# Environment (secrets)
+.env
+.env.*
+!.env.example
+
+# Logs & debug
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test / coverage
+coverage
+*.lcov
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+.idea
+
+# TypeScript
+*.tsbuildinfo
+
+# Local / misc
+*.local
+.cache
