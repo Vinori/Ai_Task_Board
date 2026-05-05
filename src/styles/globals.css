@@ -2,6 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply min-h-screen bg-slate-50 text-slate-900 antialiased;
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  html.dark body {
+    @apply min-h-screen text-slate-100;
+    background-color: #07070f;
+    background-image: radial-gradient(
+        ellipse 85% 55% at 50% -18%,
+        rgba(124, 58, 237, 0.22),
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 55% 38% at 100% 0%,
+        rgba(37, 99, 235, 0.14),
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 45% 35% at 0% 15%,
+        rgba(139, 92, 246, 0.12),
+        transparent 45%
+      );
+    background-attachment: fixed;
+  }
+
+  html:not(.dark) body {
+    @apply min-h-screen bg-slate-50 text-slate-900;
+    background-image: radial-gradient(
+        ellipse 80% 50% at 50% -10%,
+        rgba(124, 58, 237, 0.08),
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 50% 40% at 100% 0%,
+        rgba(37, 99, 235, 0.06),
+        transparent 50%
+      );
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply border border-white/10 bg-white/[0.06] shadow-glass-edge backdrop-blur-xl;
+  }
+
+  .glass-panel-light {
+    @apply border border-slate-200/80 bg-white/85 shadow-sm backdrop-blur-xl;
+  }
+
+  .text-gradient-brand {
+    @apply bg-gradient-brand bg-clip-text text-transparent;
+  }
+
+  .btn-glow-hover {
+    @apply transition duration-200 hover:brightness-105 active:scale-[0.98];
+  }
+
+  .btn-glow-hover:hover {
+    box-shadow: 0 0 48px -12px rgba(124, 58, 237, 0.4);
+  }
 }

@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { Dashboard } from "@/pages/Dashboard";
 import { Features } from "@/pages/Features";
 import { Home } from "@/pages/Home";
 import { HowItWorks } from "@/pages/HowItWorks";
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/features" element={<Features />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
     </Routes>
   );

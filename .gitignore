@@ -38,3 +38,6 @@ Thumbs.db
 # Local / misc
 *.local
 .cache
+
+# Firebase CLI
+.firebase

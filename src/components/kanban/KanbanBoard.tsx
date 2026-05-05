@@ -29,8 +29,11 @@ export function KanbanBoard() {
 
   if (!hydrated) {
     return (
-      <p className="text-sm text-slate-500" role="status">
-        Loading board…
+      <p
+        className="text-sm text-slate-500 dark:text-slate-400"
+        role="status"
+      >
+        Загрузка доски…
       </p>
     );
   }

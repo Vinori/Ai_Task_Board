@@ -27,14 +27,18 @@ export function TaskCard({ columnId, task }: TaskCardProps) {
       style={style}
       layout
       className={[
-        "rounded-lg border border-slate-200/80 bg-white p-3 shadow-sm",
-        isDragging ? "opacity-80 ring-2 ring-slate-300" : "",
+        "rounded-xl border p-3 transition-shadow",
+        "border-slate-200/90 bg-white shadow-sm",
+        "dark:border-white/[0.08] dark:bg-slate-900/55 dark:shadow-[0_4px_24px_-8px_rgba(0,0,0,0.5)]",
+        isDragging
+          ? "opacity-90 ring-2 ring-violet-400/50 dark:ring-violet-400/40"
+          : "",
       ].join(" ")}
     >
       <div className="flex items-start justify-between gap-2">
         <button
           type="button"
-          className="flex-1 cursor-grab text-left text-sm font-medium text-slate-900 active:cursor-grabbing"
+          className="flex-1 cursor-grab text-left text-sm font-medium text-slate-900 active:cursor-grabbing dark:text-slate-100"
           {...attributes}
           {...listeners}
         >
@@ -42,7 +46,7 @@ export function TaskCard({ columnId, task }: TaskCardProps) {
         </button>
         <Button
           variant="ghost"
-          className="shrink-0 px-2 py-1 text-xs"
+          className="shrink-0 rounded-lg px-2 py-1 text-xs"
           disabled={loading}
           onClick={() => splitTaskIntoSubtasks(columnId, task.id, task.title)}
         >
@@ -50,13 +54,15 @@ export function TaskCard({ columnId, task }: TaskCardProps) {
         </Button>
       </div>
       {task.subtasks.length > 0 && (
-        <ul className="mt-2 space-y-1 border-t border-slate-100 pt-2 text-xs text-slate-600">
+        <ul className="mt-2 space-y-1 border-t border-slate-100 pt-2 text-xs text-slate-600 dark:border-white/10 dark:text-slate-400">
           {task.subtasks.map((s) => (
             <li key={s.id}>• {s.title}</li>
           ))}
         </ul>
       )}
-      {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
+      {error && (
+        <p className="mt-2 text-xs text-red-600 dark:text-red-400">{error}</p>
+      )}
     </motion.div>
   );
 }

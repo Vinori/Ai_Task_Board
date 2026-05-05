@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 import App from "./App";
+import { ThemeRoot } from "@/components/layout/ThemeRoot";
 
 vi.mock("@/components/kanban/KanbanBoard", () => ({
   KanbanBoard: () => <div data-testid="kanban-stub" />,
@@ -10,10 +11,14 @@ vi.mock("@/components/kanban/KanbanBoard", () => ({
 describe("App", () => {
   it("renders home heading", () => {
     render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
+      <ThemeRoot>
+        <MemoryRouter initialEntries={["/"]}>
+          <App />
+        </MemoryRouter>
+      </ThemeRoot>,
     );
-    expect(screen.getByRole("heading", { name: /your board/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /обзор доски/i }),
+    ).toBeInTheDocument();
   });
 });
