@@ -43,3 +43,8 @@ Thumbs.db
 
 # Firebase CLI
 .firebase
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
