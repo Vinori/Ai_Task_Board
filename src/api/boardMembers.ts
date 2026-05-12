@@ -1,10 +1,19 @@
 import { getSupabase } from "@/lib/supabase";
 
+/** Columns returned by profile selects (keep in sync with nested `profiles (...)`). */
+export const PROFILE_SELECT =
+  "id,email,display_name,created_at,role,skills_description,about";
+
 export type ProfileRow = {
   id: string;
   email: string | null;
   display_name: string | null;
   created_at: string;
+  /** User-declared role (job/title), optional — not board_members.role */
+  role: string | null;
+  skills_description: string | null;
+  /** Bio / about me (optional) */
+  about: string | null;
 };
 
 export type BoardMemberRow = {
@@ -47,7 +56,7 @@ export async function searchUsers(
   const base = () =>
     supabase
       .from("profiles")
-      .select("id,email,display_name,created_at")
+      .select(PROFILE_SELECT)
       .neq("id", session.user.id)
       .limit(20);
 
@@ -68,6 +77,30 @@ export async function searchUsers(
   const data = Array.from(merged.values()).slice(0, 20);
 
   return { data, error: null };
+}
+
+/** Single profile row; uses same RLS as nested selects on board_members. */
+export async function fetchProfileById(
+  userId: string,
+): Promise<{ data: ProfileRow | null; error: Error | null }> {
+  const supabase = getSupabase();
+  if (!supabase)
+    return { data: null, error: new Error("Supabase not configured") };
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user)
+    return { data: null, error: new Error("Not authenticated") };
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select(PROFILE_SELECT)
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (error) return { data: null, error: new Error(error.message) };
+  return { data: data as ProfileRow | null, error: null };
 }
 
 type BoardMemberQueryRow = {
@@ -97,7 +130,10 @@ export async function fetchBoardMembers(
         id,
         email,
         display_name,
-        created_at
+        created_at,
+        role,
+        skills_description,
+        about
       )
     `,
     )
@@ -116,6 +152,9 @@ export async function fetchBoardMembers(
           email: null,
           display_name: null,
           created_at: "",
+          role: null,
+          skills_description: null,
+          about: null,
         };
       return {
         board_id: row.board_id,

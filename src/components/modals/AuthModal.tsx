@@ -17,8 +17,15 @@ type AuthModalProps = {
   onSwitchMode: (mode: AuthMode) => void;
 };
 
-const inputClass =
-  "w-full rounded-xl border border-slate-200/80 bg-white/70 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-violet-500/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-500/25 dark:border-white/12 dark:bg-slate-950/50 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-violet-400/55 dark:focus:bg-slate-950/80";
+const inputClass = "field-input";
+
+/** Keep aligned with DB-friendly signup metadata & sensible UX limits */
+const MAX_ROLE_CHARS = 120;
+const MAX_SKILLS_CHARS = 2000;
+
+function trimField(value: string): string {
+  return value.trim();
+}
 
 function mapSupabaseAuthError(err: AuthError, t: NavCopy): string {
   const raw = err.message.trim();
@@ -62,6 +69,8 @@ export function AuthModal({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [signupRole, setSignupRole] = useState("");
+  const [signupSkills, setSignupSkills] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -76,6 +85,8 @@ export function AuthModal({
       setEmail("");
       setPassword("");
       setConfirm("");
+      setSignupRole("");
+      setSignupSkills("");
       setError(null);
       setBusy(false);
     }
@@ -127,6 +138,18 @@ export function AuthModal({
       setError(t.passwordMismatch);
       return;
     }
+    if (mode === "signup") {
+      const r = trimField(signupRole);
+      const s = trimField(signupSkills);
+      if (r.length > MAX_ROLE_CHARS) {
+        setError(t.errorRoleTooLong);
+        return;
+      }
+      if (s.length > MAX_SKILLS_CHARS) {
+        setError(t.errorSkillsTooLong);
+        return;
+      }
+    }
     setBusy(true);
     try {
       if (mode === "signin") {
@@ -138,9 +161,19 @@ export function AuthModal({
         onClose();
         navigate("/dashboard");
       } else {
+        const roleTrimmed = trimField(signupRole);
+        const skillsTrimmed = trimField(signupSkills);
         const { data, error: signErr } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              ...(roleTrimmed ? { role: roleTrimmed } : {}),
+              ...(skillsTrimmed
+                ? { skills_description: skillsTrimmed }
+                : {}),
+            },
+          },
         });
         if (signErr) throw signErr;
         if (data.session) {
@@ -186,12 +219,12 @@ export function AuthModal({
           {t.continueWithGoogle}
         </Button>
         <div
-          className="relative flex items-center gap-3 text-xs font-medium text-slate-400 dark:text-slate-500"
+          className="relative flex items-center gap-3 text-xs font-medium text-fg-subtle dark:text-slate-500"
           role="separator"
         >
-          <span className="h-px flex-1 bg-slate-200/90 dark:bg-white/15" />
+          <span className="h-px flex-1 bg-border-muted/90 dark:bg-white/15" />
           {t.authDividerOr}
-          <span className="h-px flex-1 bg-slate-200/90 dark:bg-white/15" />
+          <span className="h-px flex-1 bg-border-muted/90 dark:bg-white/15" />
         </div>
       <form onSubmit={(e) => void handleSubmit(e)} className="space-y-3.5">
         {error ? (
@@ -209,7 +242,7 @@ export function AuthModal({
         <div className="space-y-1.5">
           <label
             htmlFor="auth-email"
-            className="block text-xs font-medium text-slate-600 dark:text-slate-400"
+            className="block text-xs font-medium text-fg-muted dark:text-slate-400"
           >
             {t.email}
           </label>
@@ -227,7 +260,7 @@ export function AuthModal({
         <div className="space-y-1.5">
           <label
             htmlFor="auth-password"
-            className="block text-xs font-medium text-slate-600 dark:text-slate-400"
+            className="block text-xs font-medium text-fg-muted dark:text-slate-400"
           >
             {t.password}
           </label>
@@ -245,24 +278,64 @@ export function AuthModal({
           />
         </div>
         {mode === "signup" ? (
-          <div className="space-y-1.5">
-            <label
-              htmlFor="auth-confirm"
-              className="block text-xs font-medium text-slate-600 dark:text-slate-400"
-            >
-              {t.confirmPassword}
-            </label>
-            <input
-              id="auth-confirm"
-              type="password"
-              autoComplete="new-password"
-              required
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              className={inputClass}
-              placeholder="••••••••"
-            />
-          </div>
+          <>
+            <div className="space-y-1.5">
+              <label
+                htmlFor="auth-confirm"
+                className="block text-xs font-medium text-fg-muted dark:text-slate-400"
+              >
+                {t.confirmPassword}
+              </label>
+              <input
+                id="auth-confirm"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                className={inputClass}
+                placeholder="••••••••"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label
+                htmlFor="auth-role"
+                className="block text-xs font-medium text-fg-muted dark:text-slate-400"
+              >
+                {t.authRoleLabel}
+              </label>
+              <input
+                id="auth-role"
+                type="text"
+                autoComplete="organization-title"
+                maxLength={MAX_ROLE_CHARS}
+                value={signupRole}
+                onChange={(e) => setSignupRole(e.target.value)}
+                className={inputClass}
+                placeholder={t.authRolePlaceholder}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label
+                htmlFor="auth-skills"
+                className="block text-xs font-medium text-fg-muted dark:text-slate-400"
+              >
+                {t.authSkillsLabel}
+              </label>
+              <textarea
+                id="auth-skills"
+                rows={3}
+                maxLength={MAX_SKILLS_CHARS}
+                value={signupSkills}
+                onChange={(e) => setSignupSkills(e.target.value)}
+                className={`${inputClass} min-h-[4.5rem] resize-y py-2`}
+                placeholder={t.authSkillsPlaceholder}
+              />
+              <p className="text-[11px] leading-snug text-fg-subtle dark:text-slate-500">
+                {t.authSkillsHint}
+              </p>
+            </div>
+          </>
         ) : null}
         <Button
           type="submit"
@@ -276,7 +349,7 @@ export function AuthModal({
               ? t.submitSignIn
               : t.submitSignUp}
         </Button>
-        <p className="pt-0.5 text-center text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+        <p className="pt-0.5 text-center text-xs leading-relaxed text-fg-subtle dark:text-slate-400">
           {mode === "signin" ? (
             <button
               type="button"

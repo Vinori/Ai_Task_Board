@@ -1,6 +1,16 @@
-import type { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
+import { useCallback, useRef } from "react";
 import type { Column, Task } from "@/types/task";
+
+/** Looks up a task by sortable id across all columns (for drag overlay / lifecycle). */
+export function findTaskInColumns(columns: Column[], taskId: string): Task | null {
+  for (const col of columns) {
+    const t = col.tasks.find((x) => x.id === taskId);
+    if (t) return t;
+  }
+  return null;
+}
 
 type MoveTaskArgs = {
   columns: Column[];
@@ -10,6 +20,16 @@ type MoveTaskArgs = {
 
 function findTaskColumn(columns: Column[], taskId: string): Column | undefined {
   return columns.find((c) => c.tasks.some((t) => t.id === taskId));
+}
+
+/** Maps collision `over` id (column id or task id) to the receiving column id for UI highlight. */
+export function resolveColumnIdForOver(
+  columns: Column[],
+  overId: string | null | undefined,
+): string | null {
+  if (overId == null || overId === "") return null;
+  if (columns.some((c) => c.id === overId)) return overId;
+  return findTaskColumn(columns, overId)?.id ?? null;
 }
 
 function removeTask(columns: Column[], taskId: string): { next: Column[]; task: Task | null } {
@@ -80,20 +100,45 @@ export function applyTaskMove({ columns, activeId, overId }: MoveTaskArgs): Colu
   return columns;
 }
 
+type UseDragDropHandlersOptions = {
+  onActiveTaskChange?: (task: Task | null) => void;
+};
+
 export function useDragDropHandlers(
   columns: Column[],
   setColumns: (c: Column[]) => void,
+  options?: UseDragDropHandlersOptions,
 ) {
-  const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over) return;
-    const next = applyTaskMove({
-      columns,
-      activeId: String(active.id),
-      overId: String(over.id),
-    });
-    setColumns(next);
-  };
+  const activeCbRef = useRef(options?.onActiveTaskChange);
+  activeCbRef.current = options?.onActiveTaskChange;
 
-  return { onDragEnd };
+  const onDragStart = useCallback(
+    (event: DragStartEvent) => {
+      const id = String(event.active.id);
+      const task = findTaskInColumns(columns, id);
+      activeCbRef.current?.(task ?? null);
+    },
+    [columns],
+  );
+
+  const onDragCancel = useCallback(() => {
+    activeCbRef.current?.(null);
+  }, []);
+
+  const onDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      activeCbRef.current?.(null);
+      const { active, over } = event;
+      if (!over) return;
+      const next = applyTaskMove({
+        columns,
+        activeId: String(active.id),
+        overId: String(over.id),
+      });
+      setColumns(next);
+    },
+    [columns, setColumns],
+  );
+
+  return { onDragStart, onDragCancel, onDragEnd };
 }

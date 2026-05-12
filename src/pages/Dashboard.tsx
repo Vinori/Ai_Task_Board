@@ -29,7 +29,7 @@ export function Dashboard() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
+      <h1 className="text-xl font-semibold tracking-tight text-fg dark:text-white sm:text-2xl">
         {title}
       </h1>
       <p className="max-w-xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">

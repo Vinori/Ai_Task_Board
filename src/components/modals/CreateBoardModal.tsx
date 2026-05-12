@@ -84,7 +84,7 @@ export function CreateBoardModal({ open, onClose }: CreateBoardModalProps) {
         <div>
           <label
             htmlFor={titleId}
-            className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+            className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-fg-subtle dark:text-slate-400"
           >
             {t.nameLabel}
           </label>
@@ -98,7 +98,7 @@ export function CreateBoardModal({ open, onClose }: CreateBoardModalProps) {
             maxLength={120}
             autoComplete="off"
             disabled={submitting}
-            className="w-full rounded-xl border border-slate-200/90 bg-white/80 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none ring-violet-500/20 transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 disabled:opacity-60 dark:border-white/15 dark:bg-white/[0.06] dark:text-white dark:placeholder:text-slate-500 dark:focus:border-violet-500/50"
+            className="field-input"
           />
         </div>
         {storeError ? (

@@ -13,6 +13,14 @@ export type NavCopy = {
   email: string;
   password: string;
   confirmPassword: string;
+  /** Optional profile fields shown only on sign-up */
+  authRoleLabel: string;
+  authRolePlaceholder: string;
+  authSkillsLabel: string;
+  authSkillsPlaceholder: string;
+  authSkillsHint: string;
+  errorRoleTooLong: string;
+  errorSkillsTooLong: string;
   submitSignIn: string;
   submitSignUp: string;
   switchToSignUp: string;
@@ -43,6 +51,20 @@ export type NavCopy = {
   goToBoard: string;
   signOut: string;
   userMenuAria: string;
+  accountSettings: string;
+  userSettingsTitle: string;
+  userSettingsSubtitle: string;
+  profileNameLabel: string;
+  profileNamePlaceholder: string;
+  profileAboutLabel: string;
+  profileAboutPlaceholder: string;
+  emailReadOnlyHint: string;
+  saveProfile: string;
+  savingProfile: string;
+  errorDisplayNameTooLong: string;
+  errorAboutTooLong: string;
+  profileUpdateError: string;
+  profileSaved: string;
 };
 
 export const navCopy: Record<Locale, NavCopy> = {
@@ -59,6 +81,15 @@ export const navCopy: Record<Locale, NavCopy> = {
     email: "Email",
     password: "Пароль",
     confirmPassword: "Подтвердите пароль",
+    authRoleLabel: "Роль (необязательно)",
+    authRolePlaceholder: "Например: разработчик, PM, дизайнер…",
+    authSkillsLabel: "Навыки и опыт (необязательно)",
+    authSkillsPlaceholder:
+      "Кратко опишите стек, компетенции или интересы для будущего распределения задач.",
+    authSkillsHint:
+      "Можно указать позже. Эти данные помогут подбирать исполнителей по задачам.",
+    errorRoleTooLong: "Поле «Роль» слишком длинное — сократите текст",
+    errorSkillsTooLong: "Описание навыков слишком длинное — сократите текст",
     submitSignIn: "Войти",
     submitSignUp: "Создать аккаунт",
     switchToSignUp: "Нет аккаунта? Зарегистрироваться",
@@ -92,6 +123,22 @@ export const navCopy: Record<Locale, NavCopy> = {
     goToBoard: "К доске",
     signOut: "Выйти",
     userMenuAria: "Меню пользователя",
+    accountSettings: "Настройки профиля",
+    userSettingsTitle: "Настройки профиля",
+    userSettingsSubtitle:
+      "Имя, роль и описание сохраняются в вашем профиле и видны участникам досок.",
+    profileNameLabel: "Имя в профиле",
+    profileNamePlaceholder: "Как вас показывать на доске",
+    profileAboutLabel: "О себе",
+    profileAboutPlaceholder:
+      "Несколько слов о вас — опционально, до {{max}} символов.",
+    emailReadOnlyHint: "Почту здесь нельзя изменить",
+    saveProfile: "Сохранить",
+    savingProfile: "Сохранение…",
+    errorDisplayNameTooLong: "Имя слишком длинное — сократите текст",
+    errorAboutTooLong: "Описание слишком длинное — сократите текст",
+    profileUpdateError: "Не удалось сохранить профиль. Попробуйте снова",
+    profileSaved: "Изменения сохранены",
   },
   en: {
     features: "Features",
@@ -106,6 +153,15 @@ export const navCopy: Record<Locale, NavCopy> = {
     email: "Email",
     password: "Password",
     confirmPassword: "Confirm password",
+    authRoleLabel: "Role (optional)",
+    authRolePlaceholder: "e.g. developer, PM, designer…",
+    authSkillsLabel: "Skills & experience (optional)",
+    authSkillsPlaceholder:
+      "Briefly describe your stack, strengths, or interests for future task matching.",
+    authSkillsHint:
+      "You can fill this in later. We’ll use it to suggest assignees for tasks.",
+    errorRoleTooLong: "Role text is too long — please shorten it",
+    errorSkillsTooLong: "Skills description is too long — please shorten it",
     submitSignIn: "Sign in",
     submitSignUp: "Create account",
     switchToSignUp: "No account? Sign up",
@@ -139,5 +195,21 @@ export const navCopy: Record<Locale, NavCopy> = {
     goToBoard: "Go to board",
     signOut: "Sign out",
     userMenuAria: "User menu",
+    accountSettings: "Profile settings",
+    userSettingsTitle: "Profile settings",
+    userSettingsSubtitle:
+      "Your name, role, and bio are stored on your profile and visible to board members.",
+    profileNameLabel: "Display name",
+    profileNamePlaceholder: "How you appear on boards",
+    profileAboutLabel: "About you",
+    profileAboutPlaceholder:
+      "A few words about yourself — optional, up to {{max}} characters.",
+    emailReadOnlyHint: "Email can’t be changed here",
+    saveProfile: "Save",
+    savingProfile: "Saving…",
+    errorDisplayNameTooLong: "Display name is too long — please shorten it",
+    errorAboutTooLong: "About text is too long — please shorten it",
+    profileUpdateError: "Could not save profile. Please try again",
+    profileSaved: "Your changes were saved",
   },
 };

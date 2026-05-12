@@ -1,7 +1,7 @@
 export function Features() {
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
+      <h1 className="text-2xl font-semibold tracking-tight text-fg dark:text-white">
         Возможности
       </h1>
       <ul className="list-inside list-disc space-y-2.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">

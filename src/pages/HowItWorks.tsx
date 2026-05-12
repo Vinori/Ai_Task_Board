@@ -1,7 +1,7 @@
 export function HowItWorks() {
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
+      <h1 className="text-2xl font-semibold tracking-tight text-fg dark:text-white">
         Как это работает
       </h1>
       <ol className="list-inside list-decimal space-y-2.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">

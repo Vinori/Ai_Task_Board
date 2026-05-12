@@ -2,14 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Semantic theme tokens (RGB triplets for Tailwind: rgb(var(--color-*) / <alpha-value>))
+ */
+html:not(.dark) {
+  --color-canvas: 235 238 246;
+  --color-surface: 241 243 250;
+  --color-surface-elevated: 247 248 252;
+  --color-surface-muted: 232 235 244;
+  --color-border: 206 214 228;
+  --color-border-muted: 222 228 238;
+  --color-fg: 30 41 59;
+  --color-fg-muted: 71 85 105;
+  --color-fg-subtle: 100 116 139;
+  --color-interactive: 223 228 239;
+  --color-ring-offset: 247 248 252;
+  --color-overlay: 15 23 42;
+}
+
+html.dark {
+  --color-canvas: 7 7 15;
+  --color-surface: 15 23 42;
+  --color-surface-elevated: 30 41 59;
+  --color-surface-muted: 51 65 85;
+  --color-border: 255 255 255;
+  --color-border-muted: 255 255 255;
+  --color-fg: 248 250 252;
+  --color-fg-muted: 203 213 225;
+  --color-fg-subtle: 148 163 184;
+  --color-interactive: 255 255 255;
+  --color-ring-offset: 30 41 59;
+  --color-overlay: 0 0 0;
+}
+
 @layer base {
   html {
     @apply antialiased;
   }
 
   html.dark body {
-    @apply min-h-screen text-slate-100;
-    background-color: #07070f;
+    min-height: 100vh;
+    color: rgb(var(--color-fg));
+    background-color: rgb(var(--color-canvas));
     background-image: radial-gradient(
         ellipse 85% 55% at 50% -18%,
         rgba(124, 58, 237, 0.22),
@@ -29,18 +63,58 @@
   }
 
   html:not(.dark) body {
-    @apply min-h-screen bg-slate-50 text-slate-900;
+    min-height: 100vh;
+    background-color: rgb(var(--color-canvas));
+    color: rgb(var(--color-fg));
     background-image: radial-gradient(
-        ellipse 80% 50% at 50% -10%,
-        rgba(124, 58, 237, 0.08),
-        transparent 50%
+        ellipse 78% 48% at 50% -12%,
+        rgba(124, 58, 237, 0.045),
+        transparent 52%
       ),
       radial-gradient(
-        ellipse 50% 40% at 100% 0%,
-        rgba(37, 99, 235, 0.06),
-        transparent 50%
+        ellipse 48% 36% at 100% 0%,
+        rgba(37, 99, 235, 0.038),
+        transparent 48%
       );
     background-attachment: fixed;
+  }
+}
+
+@layer components {
+  /** Modal / elevated panels — softer than pure white stack */
+  .glass-panel-light {
+    @apply border border-border-muted/90 bg-surface-elevated/95 shadow-surface-lg backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.07] dark:shadow-card-dark dark:backdrop-blur-2xl;
+  }
+
+  /** Inputs inside modals — calm surface, no focus white flash */
+  .field-input {
+    @apply w-full rounded-xl border border-border-muted/95 bg-surface-muted/70 px-3.5 py-2.5 text-sm shadow-inner shadow-slate-900/[0.02] outline-none ring-violet-500/15 transition focus:border-violet-400/90 focus:bg-surface-muted/90 focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/15 dark:bg-white/[0.06] dark:shadow-none dark:focus:border-violet-500/50 dark:focus:bg-white/[0.08];
+    color: rgb(var(--color-fg));
+  }
+
+  .field-input::placeholder {
+    color: rgb(var(--color-fg-subtle) / 0.85);
+  }
+
+  /** Nested rows / list tiles inside modals */
+  .field-inset-row {
+    @apply rounded-xl border border-border-muted/85 bg-surface-muted/50 dark:border-white/10 dark:bg-white/[0.04];
+  }
+
+  /** Assignee / combo shells */
+  .field-combo-shell {
+    @apply rounded-xl border border-border-muted/90 bg-surface-muted/55 backdrop-blur-sm dark:border-white/[0.12] dark:bg-white/[0.05];
+  }
+
+  /** Chip / badge muted */
+  .badge-muted {
+    @apply inline-flex max-w-full items-center truncate rounded-md bg-surface-muted/90 px-2 py-0.5 text-[11px] font-medium dark:bg-white/10;
+    color: rgb(var(--color-fg-muted));
+  }
+
+  /** Standard alert surfaces */
+  .alert-error {
+    @apply rounded-xl border border-red-200/85 bg-red-50/95 px-3 py-2 text-sm text-red-900 dark:border-red-500/35 dark:bg-red-950/40 dark:text-red-200;
   }
 }
 
@@ -49,8 +123,33 @@
     @apply border border-white/10 bg-white/[0.06] shadow-glass-edge backdrop-blur-xl;
   }
 
-  .glass-panel-light {
-    @apply border border-slate-200/80 bg-white/85 shadow-sm backdrop-blur-xl;
+  .surface-header {
+    @apply border-b border-border-muted/75 bg-surface-elevated/80 shadow-surface-sm backdrop-blur-2xl dark:border-white/10 dark:bg-slate-950/45 dark:shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)];
+  }
+
+  .surface-column {
+    @apply border border-border-muted/90 bg-surface-elevated/90 shadow-surface-sm backdrop-blur-sm dark:border-white/[0.08] dark:bg-white/[0.04] dark:shadow-card-dark;
+  }
+
+  .surface-card {
+    @apply border border-border-muted/90 bg-surface-elevated shadow-surface-sm dark:border-white/[0.08] dark:bg-slate-900/55 dark:shadow-[0_4px_24px_-8px_rgba(0,0,0,0.5)];
+  }
+
+  .surface-drag-preview {
+    @apply border border-border-muted/90 bg-surface-elevated shadow-surface-overlay ring-1 ring-slate-900/[0.05] dark:border-white/[0.08] dark:bg-slate-900/90 dark:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.65)] dark:ring-white/[0.06];
+  }
+
+  .interactive-well {
+    @apply bg-interactive/35 hover:bg-interactive/55 dark:bg-white/10 dark:hover:bg-white/[0.14];
+  }
+
+  .interactive-icon-btn {
+    @apply rounded-lg transition hover:bg-interactive/60 dark:hover:bg-white/10;
+    color: rgb(var(--color-fg-subtle));
+  }
+
+  .interactive-icon-btn:hover {
+    color: rgb(var(--color-fg));
   }
 
   .text-gradient-brand {

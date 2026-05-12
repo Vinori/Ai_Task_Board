@@ -92,8 +92,8 @@ export function BoardsSidebar() {
         aria-label={t.nav}
         aria-hidden={!sidebarOpen}
         className={[
-          "flex min-h-0 flex-col overflow-hidden border-slate-200/80 bg-white/90 backdrop-blur-xl transition-[transform,width,opacity,min-width,padding] duration-300 ease-out dark:border-white/10 dark:bg-slate-950/75",
-          "fixed top-14 left-0 z-[46] h-[calc(100dvh-3.5rem)] w-[min(100%,280px)] border-r shadow-card-dark",
+          "flex min-h-0 flex-col overflow-hidden border-border-muted/80 bg-surface-elevated/92 backdrop-blur-xl transition-[transform,width,opacity,min-width,padding] duration-300 ease-out dark:border-white/10 dark:bg-slate-950/75",
+          "fixed top-14 left-0 z-[46] h-[calc(100dvh-3.5rem)] w-[min(100%,280px)] border-r shadow-surface-lg dark:shadow-card-dark",
           "md:relative md:top-auto md:left-auto md:z-0 md:h-auto md:min-h-[calc(100vh-3.5rem)] md:max-h-none md:shadow-none",
           sidebarOpen
             ? "translate-x-0 md:w-[280px] md:min-w-[280px] md:opacity-100"
@@ -101,15 +101,15 @@ export function BoardsSidebar() {
         ].join(" ")}
       >
         <div className="flex min-h-0 flex-1 flex-col gap-3 p-4">
-          <div className="flex shrink-0 items-start justify-between gap-2 border-b border-slate-200/70 pb-3 dark:border-white/10">
-            <h2 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-white">
+          <div className="flex shrink-0 items-start justify-between gap-2 border-b border-border-muted/70 pb-3 dark:border-white/10">
+            <h2 className="text-sm font-semibold tracking-tight text-fg dark:text-white">
               {t.title}
             </h2>
             <button
               type="button"
               onClick={() => setSidebarOpen(false)}
               aria-label={t.close}
-              className="rounded-lg p-1.5 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 md:hidden dark:hover:bg-white/10 dark:hover:text-white"
+              className="rounded-lg p-1.5 text-fg-subtle transition hover:bg-interactive/60 hover:text-fg md:hidden dark:hover:bg-white/10 dark:hover:text-white"
             >
               <CloseIcon />
             </button>
@@ -121,9 +121,9 @@ export function BoardsSidebar() {
               role="status"
               aria-label={t.loading}
             >
-              <div className="h-14 animate-pulse rounded-2xl bg-slate-200/80 dark:bg-white/10" />
-              <div className="h-14 animate-pulse rounded-2xl bg-slate-200/60 dark:bg-white/[0.07]" />
-              <div className="h-14 animate-pulse rounded-2xl bg-slate-200/40 dark:bg-white/[0.05]" />
+              <div className="h-14 animate-pulse rounded-2xl bg-surface-muted/70 dark:bg-white/10" />
+              <div className="h-14 animate-pulse rounded-2xl bg-surface-muted/55 dark:bg-white/[0.07]" />
+              <div className="h-14 animate-pulse rounded-2xl bg-surface-muted/40 dark:bg-white/[0.05]" />
             </div>
           ) : error ? (
             <p className="text-xs leading-relaxed text-red-600 dark:text-red-400">
@@ -132,7 +132,7 @@ export function BoardsSidebar() {
           ) : (
             <ul className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overscroll-contain pb-2">
               {boards.length === 0 ? (
-                <li className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                <li className="text-xs leading-relaxed text-fg-subtle dark:text-slate-400">
                   {t.empty}
                 </li>
               ) : null}
@@ -158,7 +158,7 @@ export function BoardsSidebar() {
                         "group/card relative rounded-2xl border transition",
                         active
                           ? "border-transparent bg-gradient-to-br from-violet-500/[0.12] via-indigo-500/[0.1] to-sky-500/[0.12] shadow-[0_0_0_2px_rgba(124,58,237,0.45)] dark:shadow-[0_0_0_2px_rgba(167,139,250,0.45)]"
-                          : "border-slate-200/80 bg-white/60 hover:border-violet-200/80 hover:bg-white dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-violet-400/35 dark:hover:bg-white/[0.07]",
+                          : "border-border-muted/80 bg-surface-muted/45 hover:border-violet-300/55 hover:bg-surface-elevated/95 dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-violet-400/35 dark:hover:bg-white/[0.07]",
                       ].join(" ")}
                     >
                       <button
@@ -178,10 +178,10 @@ export function BoardsSidebar() {
                           {board.emoji}
                         </span>
                         <span className="min-w-0 flex-1 space-y-0.5">
-                          <span className="block truncate text-sm font-semibold text-slate-900 dark:text-white">
+                          <span className="block truncate text-sm font-semibold text-fg dark:text-white">
                             {board.title}
                           </span>
-                          <span className="block text-xs text-slate-500 dark:text-slate-400">
+                          <span className="block text-xs text-fg-subtle dark:text-slate-400">
                             {t.tasks(0)}
                           </span>
                         </span>
@@ -199,7 +199,7 @@ export function BoardsSidebar() {
                             className={[
                               "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border text-red-500 transition hover:bg-red-50 hover:text-red-700 focus-visible:z-[2] focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-500 disabled:pointer-events-none disabled:opacity-50 dark:border-white/15 dark:text-red-400 dark:hover:bg-red-950/40 dark:hover:text-red-300",
                               active
-                                ? "border-transparent bg-white/50 opacity-100 dark:bg-white/[0.08]"
+                                ? "border-transparent bg-surface-elevated/70 opacity-100 dark:bg-white/[0.08]"
                                 : "border-transparent opacity-0 group-hover/card:opacity-100",
                             ].join(" ")}
                           >
@@ -214,9 +214,9 @@ export function BoardsSidebar() {
                           }}
                           aria-label={`${t.boardSettingsAria}: ${board.title}`}
                           className={[
-                            "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:z-[2] focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 dark:border-white/15 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white",
+                            "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border text-fg-subtle transition hover:bg-interactive/55 hover:text-fg focus-visible:z-[2] focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 dark:border-white/15 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white",
                             active
-                              ? "border-transparent bg-white/50 opacity-100 dark:bg-white/[0.08]"
+                              ? "border-transparent bg-surface-elevated/70 opacity-100 dark:bg-white/[0.08]"
                               : "border-transparent opacity-0 group-hover/card:opacity-100",
                           ].join(" ")}
                         >
@@ -230,7 +230,7 @@ export function BoardsSidebar() {
             </ul>
           )}
 
-          <div className="shrink-0 border-t border-slate-200/70 pt-3 dark:border-white/10">
+          <div className="shrink-0 border-t border-border-muted/70 pt-3 dark:border-white/10">
             <button
               type="button"
               onClick={() => setCreateModalOpen(true)}

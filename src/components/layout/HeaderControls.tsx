@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/buttons/Button";
 import { AuthModal, type AuthMode } from "@/components/modals/AuthModal";
+import { UserSettingsModal } from "@/components/modals/UserSettingsModal";
 import { navCopy, type NavCopy } from "@/i18n/nav";
 import { getSupabase } from "@/lib/supabase";
 import { useAuthStore } from "@/store/authStore";
@@ -18,7 +19,7 @@ function LocaleSwitch({
 }) {
   return (
     <div
-      className="flex items-center rounded-full border border-slate-200/80 bg-slate-100/80 p-0.5 dark:border-white/15 dark:bg-black/25"
+      className="flex items-center rounded-full border border-border-muted/85 bg-surface-muted/55 p-0.5 dark:border-white/15 dark:bg-black/25"
       role="group"
       aria-label="Language"
     >
@@ -30,8 +31,8 @@ function LocaleSwitch({
           className={[
             "rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide transition",
             locale === code
-              ? "bg-white text-slate-900 shadow-sm dark:bg-white/15 dark:text-white"
-              : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100",
+              ? "bg-surface-elevated text-fg shadow-surface-sm dark:bg-white/15 dark:text-white"
+              : "text-fg-subtle hover:text-fg dark:text-slate-400 dark:hover:text-slate-100",
           ].join(" ")}
         >
           {code}
@@ -48,7 +49,15 @@ function hueFromString(s: string): number {
   return Math.abs(h) % 360;
 }
 
-function UserMenu({ user, t }: { user: User; t: NavCopy }) {
+function UserMenu({
+  user,
+  t,
+  onAccountSettings,
+}: {
+  user: User;
+  t: NavCopy;
+  onAccountSettings: () => void;
+}) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -98,14 +107,27 @@ function UserMenu({ user, t }: { user: User; t: NavCopy }) {
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 z-[60] mt-2 w-64 overflow-hidden rounded-xl border border-slate-200/90 bg-white py-2 shadow-lg dark:border-white/12 dark:bg-slate-900"
+          className="absolute right-0 z-[60] mt-2 w-64 overflow-hidden rounded-xl border border-border-muted/90 bg-surface-elevated py-2 shadow-surface-lg dark:border-white/12 dark:bg-slate-900"
         >
-          <p className="border-b border-slate-100 px-3 pb-2 text-xs font-medium uppercase tracking-wider text-slate-400 dark:border-white/10 dark:text-slate-500">
+          <p className="border-b border-border-muted/60 px-3 pb-2 text-xs font-medium uppercase tracking-wider text-fg-subtle dark:border-white/10 dark:text-slate-500">
             {t.email}
           </p>
-          <p className="max-w-full break-all px-3 py-2 text-sm text-slate-800 dark:text-slate-100">
+          <p className="max-w-full break-all px-3 py-2 text-sm text-fg dark:text-slate-100">
             {email}
           </p>
+          <div className="px-2 pb-1 pt-1">
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setOpen(false);
+                onAccountSettings();
+              }}
+              className="w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-fg transition hover:bg-interactive/45 dark:text-slate-100 dark:hover:bg-white/10"
+            >
+              {t.accountSettings}
+            </button>
+          </div>
           <div className="px-2 pb-1 pt-1">
             <button
               type="button"
@@ -134,6 +156,7 @@ export function HeaderControls() {
   const t = navCopy[locale];
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
+  const [userSettingsOpen, setUserSettingsOpen] = useState(false);
 
   function openAuth(mode: AuthMode) {
     setAuthMode(mode);
@@ -158,7 +181,7 @@ export function HeaderControls() {
                   ? "Hide left boards panel"
                   : "Show left boards panel"
             }
-            className={`flex h-9 w-9 items-center justify-center rounded-full border transition sm:h-9 sm:w-9 ${sidebarOpen ? "border-violet-300/70 bg-gradient-brand-soft text-violet-700 dark:border-violet-500/40 dark:text-violet-200" : "border-slate-200/80 bg-white/70 text-slate-700 hover:bg-white dark:border-white/15 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"}`}
+            className={`flex h-9 w-9 items-center justify-center rounded-full border transition sm:h-9 sm:w-9 ${sidebarOpen ? "border-violet-300/70 bg-gradient-brand-soft text-violet-700 dark:border-violet-500/40 dark:text-violet-200" : "border-border-muted/85 bg-surface-muted/50 text-fg-muted hover:bg-interactive/45 dark:border-white/15 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15"}`}
           >
             <BoardsPanelIcon />
           </button>
@@ -169,13 +192,17 @@ export function HeaderControls() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/80 bg-white/70 text-slate-700 transition hover:bg-white dark:border-white/15 dark:bg-white/10 dark:text-amber-200 dark:hover:bg-white/15"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-border-muted/85 bg-surface-muted/50 text-fg-muted transition hover:bg-interactive/45 dark:border-white/15 dark:bg-white/10 dark:text-amber-200 dark:hover:bg-white/15"
           aria-label={theme === "dark" ? "Light mode" : "Dark mode"}
         >
           {theme === "dark" ? <SunIcon /> : <MoonIcon />}
         </button>
         {user ? (
-          <UserMenu user={user} t={t} />
+          <UserMenu
+            user={user}
+            t={t}
+            onAccountSettings={() => setUserSettingsOpen(true)}
+          />
         ) : (
           <>
             <Button
@@ -210,6 +237,10 @@ export function HeaderControls() {
         locale={locale}
         onClose={() => setAuthOpen(false)}
         onSwitchMode={setAuthMode}
+      />
+      <UserSettingsModal
+        open={userSettingsOpen}
+        onClose={() => setUserSettingsOpen(false)}
       />
     </>
   );

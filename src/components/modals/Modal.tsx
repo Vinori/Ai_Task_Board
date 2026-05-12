@@ -32,14 +32,14 @@ export function Modal({
   if (!open) return null;
   return (
     <div
-      className="fixed inset-0 z-50 flex min-h-[100dvh] w-full items-center justify-center bg-slate-900/40 p-4 backdrop-blur-md dark:bg-black/55 sm:p-6"
+      className="fixed inset-0 z-50 flex min-h-[100dvh] w-full items-center justify-center bg-overlay/50 p-4 backdrop-blur-md dark:bg-overlay/60 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
       onClick={onClose}
     >
       <div
-        className="glass-panel-light max-h-[min(90dvh,640px)] w-full max-w-[420px] overflow-y-auto rounded-2xl border border-slate-200/80 p-5 shadow-xl shadow-slate-900/10 ring-1 ring-violet-500/[0.06] dark:border-white/10 dark:bg-white/[0.07] dark:shadow-card-dark dark:ring-white/[0.08] dark:backdrop-blur-2xl sm:p-6"
+        className="glass-panel-light max-h-[min(90dvh,640px)] w-full max-w-[420px] overflow-y-auto rounded-2xl p-5 ring-1 ring-violet-500/[0.06] dark:ring-white/[0.08] sm:p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-5 flex items-start justify-between gap-3">
@@ -47,12 +47,12 @@ export function Modal({
             <div className="mb-2 h-0.5 w-10 rounded-full bg-gradient-brand shadow-glow opacity-90" />
             <h2
               id="modal-title"
-              className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white"
+              className="text-lg font-semibold tracking-tight text-fg dark:text-white"
             >
               {title}
             </h2>
             {subtitle ? (
-              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              <p className="mt-1.5 text-sm leading-relaxed text-fg-muted dark:text-slate-400">
                 {subtitle}
               </p>
             ) : null}
@@ -61,7 +61,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label={closeLabel}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200/60 bg-white/60 text-slate-500 transition hover:border-slate-300 hover:bg-white hover:text-slate-800 dark:border-white/10 dark:bg-white/5 dark:text-slate-400 dark:hover:border-white/20 dark:hover:bg-white/10 dark:hover:text-white"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border-muted/75 bg-surface-muted/50 text-fg-subtle transition hover:border-border-muted hover:bg-interactive/50 hover:text-fg dark:border-white/10 dark:bg-white/5 dark:text-slate-400 dark:hover:border-white/20 dark:hover:bg-white/10 dark:hover:text-white"
           >
             <CloseIcon />
           </button>

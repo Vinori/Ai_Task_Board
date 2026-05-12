@@ -185,25 +185,25 @@ export function BoardSettingsModal({
     >
       <div className="space-y-5">
         {actionError ? (
-          <p className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-200">
+          <p className="alert-error">
             {t.actionError}:{" "}
             {actionError === BOARD_MEMBER_ERROR_DUPLICATE
               ? t.duplicateMember
               : actionError}
           </p>
         ) : null}
-        <p className="text-xs text-slate-500 dark:text-slate-400">{t.hintRefresh}</p>
+        <p className="text-xs text-fg-subtle dark:text-slate-400">{t.hintRefresh}</p>
         {/* Members list */}
         <div>
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-fg-subtle dark:text-slate-400">
             {t.membersTitle}
           </h3>
           {membersLoading ? (
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-fg-subtle dark:text-slate-400">
               {t.loadingMembers}
             </p>
           ) : members.length === 0 ? (
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-fg-subtle dark:text-slate-400">
               {t.noMembers}
             </p>
           ) : (
@@ -221,19 +221,19 @@ export function BoardSettingsModal({
                 return (
                   <li
                     key={m.user_id}
-                    className="flex items-center gap-3 rounded-xl border border-slate-200/70 bg-white/60 px-3 py-2 dark:border-white/10 dark:bg-white/[0.04]"
+                    className="field-inset-row flex items-center gap-3 px-3 py-2"
                   >
                     <Avatar hue={hue} initial={initial} />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">
+                      <p className="truncate text-sm font-semibold text-fg dark:text-white">
                         {profile.display_name ?? profile.email}{" "}
                         {isSelf ? (
-                          <span className="font-normal text-slate-400 dark:text-slate-500">
+                          <span className="font-normal text-fg-subtle dark:text-slate-500">
                             {t.you}
                           </span>
                         ) : null}
                       </p>
-                      <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                      <p className="truncate text-xs text-fg-subtle dark:text-slate-400">
                         {profile.email} · {t.member}
                       </p>
                     </div>
@@ -259,12 +259,12 @@ export function BoardSettingsModal({
           <div>
             <label
               htmlFor={searchId}
-              className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+              className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-fg-subtle dark:text-slate-400"
             >
               {t.searchLabel}
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-fg-subtle dark:text-slate-500">
                 <SearchIcon />
               </span>
               <input
@@ -274,18 +274,18 @@ export function BoardSettingsModal({
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t.searchPlaceholder}
                 autoComplete="off"
-                className="w-full rounded-xl border border-slate-200/90 bg-white/80 py-2.5 pl-9 pr-3 text-sm text-slate-900 shadow-sm outline-none ring-violet-500/20 transition placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 dark:border-white/15 dark:bg-white/[0.06] dark:text-white dark:placeholder:text-slate-500 dark:focus:border-violet-500/50"
+                className="field-input py-2.5 pl-9 pr-3"
               />
             </div>
 
             {query.trim() && (
               <ul className="mt-3 max-h-[min(40vh,200px)] space-y-2 overflow-y-auto overscroll-contain">
                 {searchLoading ? (
-                  <li className="text-center text-sm text-slate-500 dark:text-slate-400">
+                  <li className="text-center text-sm text-fg-subtle dark:text-slate-400">
                     …
                   </li>
                 ) : searchResults.length === 0 ? (
-                  <li className="rounded-xl border border-slate-200/70 bg-slate-50/80 px-3 py-3 text-center text-sm text-slate-500 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-400">
+                  <li className="field-inset-row px-3 py-3 text-center text-sm text-fg-subtle dark:text-slate-400">
                     {t.noResults}
                   </li>
                 ) : (
@@ -300,14 +300,14 @@ export function BoardSettingsModal({
                     return (
                       <li
                         key={user.id}
-                        className="flex items-center gap-3 rounded-xl border border-slate-200/70 bg-white/60 px-3 py-2 dark:border-white/10 dark:bg-white/[0.04]"
+                        className="field-inset-row flex items-center gap-3 px-3 py-2"
                       >
                         <Avatar hue={hue} initial={initial} />
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">
+                          <p className="truncate text-sm font-semibold text-fg dark:text-white">
                             {user.display_name ?? user.email}
                           </p>
-                          <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                          <p className="truncate text-xs text-fg-subtle dark:text-slate-400">
                             {user.email}
                           </p>
                         </div>

@@ -44,22 +44,22 @@ export function MainNav() {
     [
       "rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
       isActive
-        ? "bg-slate-200/85 text-slate-900 shadow-sm dark:bg-violet-500/25 dark:text-white dark:shadow-none dark:ring-1 dark:ring-violet-400/35"
-        : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white",
+        ? "bg-interactive/55 text-fg shadow-surface-sm dark:bg-violet-500/25 dark:text-white dark:shadow-none dark:ring-1 dark:ring-violet-400/35"
+        : "text-fg-muted hover:text-fg dark:text-slate-400 dark:hover:text-white",
     ].join(" ");
 
   const mobileLink = ({ isActive }: { isActive: boolean }) =>
     [
       "block rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
       isActive
-        ? "bg-slate-200/90 text-slate-900 dark:bg-violet-500/20 dark:text-white dark:ring-1 dark:ring-violet-400/30"
-        : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-white/5",
+        ? "bg-interactive/60 text-fg dark:bg-violet-500/20 dark:text-white dark:ring-1 dark:ring-violet-400/30"
+        : "text-fg-muted hover:bg-interactive/35 dark:text-slate-400 dark:hover:bg-white/5",
     ].join(" ");
 
   return (
     <>
       <nav
-        className="hidden items-center gap-0.5 rounded-full border border-slate-200/70 bg-slate-100/55 p-0.5 backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.05] lg:flex"
+        className="hidden items-center gap-0.5 rounded-full border border-border-muted/70 bg-surface-muted/40 p-0.5 backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.05] lg:flex"
         aria-label={t.primaryNavAria}
       >
         {items.map((item) => (
@@ -82,7 +82,7 @@ export function MainNav() {
           aria-haspopup="true"
           aria-controls="site-nav-menu"
           aria-label={t.navMenuAria}
-          className="flex h-9 items-center gap-2 rounded-xl border border-slate-200/80 bg-white/80 px-2.5 text-xs font-medium text-slate-700 shadow-sm transition hover:bg-white dark:border-white/15 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/[0.14]"
+          className="flex h-9 items-center gap-2 rounded-xl border border-border-muted/85 bg-surface-elevated/90 px-2.5 text-xs font-medium text-fg shadow-surface-sm transition hover:bg-interactive/40 dark:border-white/15 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/[0.14]"
         >
           <MenuGlyph open={open} />
           <span className="sr-only sm:not-sr-only sm:max-w-[7rem] sm:truncate">
@@ -93,14 +93,14 @@ export function MainNav() {
           <>
             <button
               type="button"
-              className="fixed inset-0 z-40 cursor-default bg-slate-900/25 backdrop-blur-[2px] dark:bg-black/45"
+              className="fixed inset-0 z-40 cursor-default bg-overlay/30 backdrop-blur-[2px] dark:bg-black/45"
               aria-label={t.modalClose}
               onClick={() => setOpen(false)}
             />
             <div
               id="site-nav-menu"
               role="menu"
-              className="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(calc(100vw-2rem),16rem)] rounded-2xl border border-slate-200/90 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-card-dark"
+              className="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(calc(100vw-2rem),16rem)] rounded-2xl border border-border-muted/90 bg-surface-elevated/95 p-1.5 shadow-surface-lg backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-card-dark"
             >
               {items.map((item) => (
                 <NavLink

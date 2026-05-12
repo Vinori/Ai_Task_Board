@@ -18,18 +18,18 @@ const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
   ].join(" "),
   primary: [
     base,
-    "bg-slate-900 text-white hover:bg-slate-800",
-    "focus-visible:outline-slate-900",
-    "dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 dark:focus-visible:outline-white",
+    "bg-fg text-white hover:bg-fg/90",
+    "focus-visible:outline-fg focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
+    "dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 dark:focus-visible:outline-white dark:focus-visible:ring-offset-slate-900",
   ].join(" "),
   ghost: [
     base,
-    "text-slate-600 hover:bg-slate-100",
+    "text-fg-muted hover:bg-interactive/45 hover:text-fg",
     "dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white",
   ].join(" "),
   outline: [
     base,
-    "border border-slate-300/90 bg-transparent text-slate-800 hover:bg-slate-100/80",
+    "border border-border-muted/95 bg-transparent text-fg hover:bg-interactive/35",
     "dark:border-white/25 dark:text-white dark:hover:bg-white/10",
   ].join(" "),
 };
